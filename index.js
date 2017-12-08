@@ -4,6 +4,12 @@ var isArguments = require('./lib/is_arguments.js');
 
 var deepEqual = module.exports = function (actual, expected, opts) {
   if (!opts) opts = {};
+
+  //functions are assumed equal when functions are ignored
+  if (opts.ignoreFunctions && isFunction(actual) && isFunction(expected)) {
+     return true
+  }
+
   // 7.1. All identical values are equivalent, as determined by ===.
   if (actual === expected) {
     return true;
@@ -40,8 +46,16 @@ function isBuffer (x) {
   return true;
 }
 
+function isFunction(functionToCheck) {
+    var getType = {};
+    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
+
 function objEquiv(a, b, opts) {
   var i, key;
+  console.log(isFunction(a),a)
+
   if (isUndefinedOrNull(a) || isUndefinedOrNull(b))
     return false;
   // an identical 'prototype' property.
@@ -56,6 +70,7 @@ function objEquiv(a, b, opts) {
     b = pSlice.call(b);
     return deepEqual(a, b, opts);
   }
+
   if (isBuffer(a)) {
     if (!isBuffer(b)) {
       return false;
@@ -70,8 +85,11 @@ function objEquiv(a, b, opts) {
     var ka = objectKeys(a),
         kb = objectKeys(b);
   } catch (e) {//happens when one is a string literal and the other isn't
+
     return false;
   }
+
+
   // having the same number of owned properties (keys incorporates
   // hasOwnProperty)
   if (ka.length != kb.length)
@@ -81,14 +99,17 @@ function objEquiv(a, b, opts) {
   kb.sort();
   //~~~cheap key test
   for (i = ka.length - 1; i >= 0; i--) {
-    if (ka[i] != kb[i])
-      return false;
+      if (ka[i] != kb[i]) {
+          return false;
+      }
   }
   //equivalent values for every corresponding key, and
   //~~~possibly expensive deep test
   for (i = ka.length - 1; i >= 0; i--) {
     key = ka[i];
-    if (!deepEqual(a[key], b[key], opts)) return false;
+    if (!deepEqual(a[key], b[key], opts)) {
+      return false;
+    }
   }
   return typeof a === typeof b;
 }

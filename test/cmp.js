@@ -93,3 +93,12 @@ test('null == undefined', function (t) {
     t.notOk(equal(null, undefined, { strict: true }))
     t.end()
 })
+
+test('functions ignored', function (t) {
+    t.ok(equal(
+        { a : [ 2, 3 ], b : [ 4 ], x: function() { return null } },
+        { a : [ 2, 3 ], b : [ 4 ], x: function() { return null }  },
+        { ignoreFunctions: true}
+    ));
+    t.end();
+})
