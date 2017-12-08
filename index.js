@@ -54,7 +54,6 @@ function isFunction(functionToCheck) {
 
 function objEquiv(a, b, opts) {
   var i, key;
-  console.log(isFunction(a),a)
 
   if (isUndefinedOrNull(a) || isUndefinedOrNull(b))
     return false;
