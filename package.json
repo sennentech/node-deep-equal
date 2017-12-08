@@ -1,5 +1,5 @@
 {
-  "name": "deep-equal-ingore-functions",
+  "name": "deep-equal-ignore-functions",
   "version": "1.0.0",
   "description": "alteration of the deep-equal package to ignore functions",
   "main": "index.js",
