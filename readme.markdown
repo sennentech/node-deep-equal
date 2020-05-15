@@ -1,4 +1,9 @@
+# fork info
+Minor update on original module (below) to ingore and handle functions better
+
 # deep-equal
+
+
 
 Node's `assert.deepEqual() algorithm` as a standalone module.
 
